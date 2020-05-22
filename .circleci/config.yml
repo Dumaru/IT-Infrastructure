@@ -28,7 +28,7 @@ jobs:
       - run:
           name: Update backend
           command: |
-            kubectl patch deployment frontend --patch "$(cat backend_patch.yaml)"
+            kubectl patch deployment frontend --patch "$(cat frontend_patch.yaml)"
 workflows:
   update_replicas:
     jobs:
