@@ -33,7 +33,7 @@ workflows:
   update_replicas:
     jobs:
       - update-deployment:
-          cluster-name: rmCluster
+          cluster-name: rmCluster ### Cluster al que actualizar
           filters:
             branches:
               only: master
