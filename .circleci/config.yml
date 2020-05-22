@@ -28,6 +28,7 @@ jobs:
       - run:
           name: Update backend
           command: |
+            cd flask_app_infra
             kubectl patch deployment frontend --patch "$(cat frontend_patch.yaml)"
 workflows:
   update_replicas:
