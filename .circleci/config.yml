@@ -36,4 +36,4 @@ workflows:
           cluster-name: rmCluster
           filters:
             branches:
-              only: dev
+              only: master
