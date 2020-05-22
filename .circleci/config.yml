@@ -1,0 +1,39 @@
+version: 2.1
+orbs:
+  aws-eks: circleci/aws-eks@0.2.7
+  kubernetes: circleci/kubernetes@0.11.0
+
+# Backend en linux bash
+# > kubectl patch deployment  backend --patch "$(cat backend_patch.yaml -Raw)"
+# Frontend en linux bash
+# > kubectl patch deployment  frontend --patch "$(cat frontend_patch.yaml -Raw)"
+jobs:
+  update-deployment:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+    steps:
+      - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+      - run:
+          name: Update frontend
+          command: |
+            cd flask_app_infra
+            kubectl patch deployment backend --patch "$(cat backend_patch.yaml)"
+      - run:
+          name: Update backend
+          command: |
+            kubectl patch deployment frontend --patch "$(cat backend_patch.yaml)"
+workflows:
+  update_replicas:
+    jobs:
+      - update-deployment:
+          cluster-name: rmCluster
+          filters:
+            branches:
+              only: dev
