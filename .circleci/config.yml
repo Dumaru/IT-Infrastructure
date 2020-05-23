@@ -34,7 +34,7 @@ workflows:
   update_replicas:
     jobs:
       - update-deployment:
-          cluster-name: rmCluster ### Cluster al que actualizar
+          cluster-name: clusterpro ### Cluster al que actualizar
           filters:
             branches:
-              only: master
+              only: prod
